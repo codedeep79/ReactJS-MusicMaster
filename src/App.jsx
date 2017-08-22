@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import {FormGroup, FormControl, InputGroup, Glyphicon} from 'react-bootstrap';
+import Profile from './Profile';
 
 class App extends Component{
     constructor(props){
@@ -8,8 +9,10 @@ class App extends Component{
         this.state = {
             query: '',
             api_key: 'c8303e90962e3a5ebd5a1f260a69b138',
-            prefix: '',
-            limit: 3
+            limit: null,
+            artist: null,
+            country: null,
+            dataArtist: null
         }
     }
     search(){
@@ -19,7 +22,9 @@ class App extends Component{
             method: 'GET'
         })
         .then(response => response.json())
-        .then(json => console.log(json));
+        .then(json => {
+            this.setState({dataArtist: json.data});
+        });
     }
     render(){
         return(
@@ -44,10 +49,7 @@ class App extends Component{
                         </InputGroup>
                     </FormGroup>
                 </form>
-                <div className="profile">
-                    <div>Artist Picture</div>
-                    <div>Artist Name</div>
-                </div>
+                <Profile data={this.state.dataArtist}/>
                 <div className="gallery">
                     Gallery
                 </div>
